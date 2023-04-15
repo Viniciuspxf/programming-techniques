@@ -1,0 +1,21 @@
+Este foi meu último EP de Estruras de Dados 2. A tarefa dele é ler uma expressão regular válida. 
+Depois, lê palavras e diz se elas são válidas para a expressão regular ou não.
+
+
+Alguns motivos pelo qual esse código é ruim:
+
+
+- Variável em português e em inglês ao mesmo tempo: estadosSize.
+
+- Nome de variável ruim: "bool achou". No nome da variável é preciso indicar o que foi achado (ou não foi achado).
+
+- Na função da main, o correto era trocar os ifs das opções para "else if" ou "switch case", evitando a execução de comparações desnecessárias
+(e aumentando a legibilidade do código).
+
+- Magic numbers: estados[i].leitura = 1. O ideal seria dar um significado para este 1. Criar uma enumeração ou constantes que expliquem os 
+tipos de leitura que os estados devem ter.
+
+- A pilha só é usada no construtor do regex, não deveria ser um atributo do objeto.
+
+- Muitos for loops e ifs encadeados, delegar para métodos privados poderia ajudar.
+

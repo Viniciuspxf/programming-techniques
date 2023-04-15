@@ -1,0 +1,21 @@
+Motivos pelos quais o código é bom:
+
+- Nomes de variáveis claros.
+
+- Nomes das classes estão claros.
+
+- Esta classe tem responsabilidade única (fazer transações de dinheiro). A responsabilidade de autorização da transação e enviar a mensagem
+foi passada para outras duas classes.
+
+- Possui exceções claras.
+
+- Não coloquei a classe do Profile, mas é perceptível que ele não é um modelo anêmico 
+(isto, é, apenas com getters e setters, sem lógica). Existem validações e operações nessa classe que
+possuem regras de negócio.
+
+
+
+
+
+
+
