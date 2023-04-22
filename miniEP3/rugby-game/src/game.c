@@ -134,6 +134,13 @@ Game new_game_from_map(
 
   set_item_in_field_from_map(game->field, game->obstacle, map);
 
+  char* field_string = string_field(game->field);
+
+  game->attacker_data = new_attacker(field_dimension, field_string);
+  game->defender_data = new_defender(field_dimension, field_string);
+
+  free(field_string);
+
   set_item_in_field_from_map(game->field, game->attacker, map);
   set_item_in_field_from_map(game->field, game->defender, map);
 
