@@ -28,3 +28,10 @@ int ** new_int_matrix(size_t height, size_t width, int initial_value) {
 
   return matrix;
 }
+
+void free_matrix(size_t height, void **matrix) {
+  for (size_t i = 0; i < height; i++)
+    free(matrix[i]);
+
+  free(matrix);
+}

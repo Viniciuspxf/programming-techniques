@@ -7,4 +7,6 @@ position_t ** new_position_matrix(size_t height, size_t width, position_t positi
 
 int ** new_int_matrix(size_t height, size_t width, int initial_value);
 
+void free_matrix(size_t height, void **matrix);
+
 #endif

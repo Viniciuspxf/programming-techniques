@@ -65,7 +65,7 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
   // add_element(queue, defender_position);
   previous[defender_position.i][defender_position.j] = defender_position;
 
-  while (/*!is__empty(queue)*/1) {
+  while (/*!is_empty(queue)*/1) {
     // current_position = remove(queue);
 
     if (equal_positions(defender_position, destination)) break;
@@ -74,11 +74,17 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
       next_position.i = current_position.i + directions[i][0];
       next_position.j = current_position.j + directions[i][1];
 
-      // add_element(queue, next_position);
-      previous[next_position.i][next_position.j] = current_position;
-      visited[next_position.i][next_position.j] = 1;
+      if (!visited[next_position.i][next_position.j]) {
+        // add_element(queue, next_position);
+        previous[next_position.i][next_position.j] = current_position;
+        visited[next_position.i][next_position.j] = 1;
+      }
     }
   }
+
+  free_matrix(defender_data->map_height, (void **) previous);
+  free_matrix(defender_data->map_height, (void **) visited);
+  // free_queue(queue);
 }
 
 /*----------------------------------------------------------------------------*/
