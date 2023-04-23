@@ -39,7 +39,7 @@ position_t get_defender_destination(position_t attacker_position, Defender defen
   size_t absolute_distance;
   char item;
 
-  for (size_t i = 0; i < defender_data->map_height; i++) {
+  for (size_t i = 1; i < defender_data->map_height - 1; i++) {
     item =  defender_data->map[i][defender_data->map_width - 1];
     absolute_distance = attacker_position.i > i ? attacker_position.i - i : i - attacker_position.i;
     
@@ -49,8 +49,7 @@ position_t get_defender_destination(position_t attacker_position, Defender defen
     }
   }
 
-  destination.j = defender_data->map_width - 1;
-
+  destination.j = defender_data->map_width - 2;
   return destination;
 }
 
@@ -59,10 +58,11 @@ int is_valid_position(Defender defender_data, int **visited, position_t position
   return !visited[position.i][position.j] && defender_data->map[position.i][position.j] != 'X';
 }
 
-void get_defender_shortest_path(position_t defender_position, position_t destination, Defender defender_data) {
-  position_t position;
-  position_t current_position;
-  position_t next_position;
+position_t *get_defender_shortest_path(position_t defender_position, position_t destination, Defender defender_data) {
+  position_t position, current_position, next_position, *path;
+
+  path = malloc(defender_data->map_height * defender_data->map_width * sizeof(position_t));
+
   int directions[8][2] = {DIR_UP, DIR_UP_RIGHT, DIR_RIGHT, DIR_DOWN_RIGHT, DIR_DOWN, DIR_DOWN_LEFT, DIR_LEFT, DIR_UP_LEFT};
 
   position_t **previous = new_position_matrix(defender_data->map_height, defender_data->map_width, position);
@@ -75,7 +75,7 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
   while (!is_empty(queue)) {
     current_position = get_first_element(queue);
 
-    if (equal_positions(defender_position, destination)) break;
+    if (equal_positions(current_position, destination)) break;
     
     for (int i = 0; i < 8; i++) {
       next_position.i = current_position.i + directions[i][0];
@@ -89,9 +89,34 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
     }
   }
 
+  path[0] = destination;
+
+  for (size_t i = 1; !equal_positions(path[i-1], defender_position); i++) {
+    current_position = path[i - 1];
+    path[i] = previous[current_position.i][current_position.j];
+  }
+
   free_matrix(defender_data->map_height, (void **) previous);
   free_matrix(defender_data->map_height, (void **) visited);
   free_queue(queue);
+  
+  return path;
+}
+
+direction_t get_defender_direction(position_t defender_position, position_t destination, Defender defender_data) {
+  position_t current_position;
+  position_t *path = get_defender_shortest_path(defender_position, destination, defender_data);
+
+  current_position = path[0];
+  UNUSED(current_position);
+
+
+  for (size_t i = 1; !equal_positions(path[i-1], defender_position); i++) {
+  }
+
+  free(path);
+
+  return (direction_t) DIR_LEFT;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -105,9 +130,7 @@ direction_t execute_defender_strategy(
   position_t attacker_position = get_spy_position(attacker_spy);
   position_t destination = get_defender_destination(attacker_position, defender_data);
   
-  get_defender_shortest_path(defender_position, destination, defender_data);
-
-  return (direction_t) DIR_LEFT;
+  return get_defender_direction(defender_position, destination, defender_data);
 }
 
 /*----------------------------------------------------------------------------*/
