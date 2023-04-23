@@ -1,5 +1,8 @@
 #include "queue.h"
 #include <stdlib.h>
+#include <stdio.h>
+
+#define PRINT_QUEUE 0
 
 typedef struct node {
     struct node *previous_position;
@@ -22,6 +25,22 @@ Node *new_node() {
     return node;
 }
 
+void print(queue_t queue) {
+    if (PRINT_QUEUE) {
+        Node * current_node = queue->head_node;
+        Node * next_node;
+
+        while (current_node) {
+            printf("(%ld,%ld) ", current_node->value.i, current_node->value.j);
+
+            next_node = current_node->next_position;
+            current_node = next_node;
+        }
+
+        printf("\n\n");
+    }
+}
+
 queue_t new_queue() {
     queue_t queue = malloc(sizeof(struct Queue));
 
@@ -30,6 +49,8 @@ queue_t new_queue() {
 
     queue->size = 0;
 
+    print(queue);
+
     return queue;
 }
 
@@ -37,9 +58,12 @@ void add_element(queue_t queue, position_t position) {
     Node * auxiliar_node = queue->head_node->next_position;
     
     Node * new_element = new_node();
+
     new_element->value = position;
     new_element->next_position = auxiliar_node;
     new_element->previous_position = queue->head_node;
+
+    queue->head_node->next_position = new_element;
 
     if (auxiliar_node) {
         auxiliar_node->previous_position = new_element;
@@ -49,6 +73,7 @@ void add_element(queue_t queue, position_t position) {
     }
 
     queue->size++;
+    print(queue);
 }
 
 position_t get_first_element(queue_t queue) {
@@ -63,7 +88,7 @@ position_t get_first_element(queue_t queue) {
         queue->size--;
     }
 
-
+    print(queue);
     return first_element;
 }
 

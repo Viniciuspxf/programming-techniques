@@ -55,6 +55,10 @@ position_t get_defender_destination(position_t attacker_position, Defender defen
 }
 
 
+int is_valid_position(Defender defender_data, int **visited, position_t position) {
+  return !visited[position.i][position.j] && defender_data->map[position.i][position.j] != 'X';
+}
+
 void get_defender_shortest_path(position_t defender_position, position_t destination, Defender defender_data) {
   position_t position;
   position_t current_position;
@@ -77,7 +81,7 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
       next_position.i = current_position.i + directions[i][0];
       next_position.j = current_position.j + directions[i][1];
 
-      if (!visited[next_position.i][next_position.j]) {
+      if (is_valid_position(defender_data, visited, next_position)) {
         add_element(queue, next_position);
         previous[next_position.i][next_position.j] = current_position;
         visited[next_position.i][next_position.j] = 1;
