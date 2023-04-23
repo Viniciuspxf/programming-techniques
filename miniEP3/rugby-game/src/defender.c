@@ -103,19 +103,29 @@ position_t *get_defender_shortest_path(position_t defender_position, position_t 
 }
 
 direction_t get_defender_direction(position_t defender_position, position_t destination, Defender defender_data) {
-  // position_t current_position;
+  position_t current_position, next_position;
   position_t *path = get_defender_shortest_path(defender_position, destination, defender_data);
+  direction_t direction;
 
-  // current_position = path[0];
+  size_t i;
+  int path_size = 0;
 
-  for (size_t i = 1; !equal_positions(path[i-1], defender_position); i++) {
-    printf("(%ld, %ld) ", path[i].i, path[i].j);
-    fflush(stdout);
+  for (i = 1; !equal_positions(path[i-1], defender_position); i++) {
+    path_size++;
+  }
+
+  if (!path_size) {
+    direction = (direction_t) DIR_STAY;
+  }
+  else {
+    current_position = path[i-1];
+    next_position = path[i-2];
+    direction =  (direction_t) {next_position.i - current_position.i, next_position.j - current_position.j};
   }
 
   free(path);
 
-  return (direction_t) DIR_LEFT;
+  return direction;
 }
 
 /*----------------------------------------------------------------------------*/
