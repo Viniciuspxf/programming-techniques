@@ -33,14 +33,13 @@ struct defender {
 };
 
 position_t get_defender_destination(position_t attacker_position, Defender defender_data) {
-
   position_t destination;
   size_t minimum_distance = __SIZE_MAX__;
   size_t absolute_distance;
   char item;
 
-  for (size_t i = 1; i < defender_data->map_height - 1; i++) {
-    item =  defender_data->map[i][defender_data->map_width - 1];
+  for (size_t i = 0; i < defender_data->map_height; i++) {
+    item =  defender_data->map[i][defender_data->map_width - 2];
     absolute_distance = attacker_position.i > i ? attacker_position.i - i : i - attacker_position.i;
     
     if (item != 'X' && absolute_distance < minimum_distance) {
@@ -104,14 +103,14 @@ position_t *get_defender_shortest_path(position_t defender_position, position_t 
 }
 
 direction_t get_defender_direction(position_t defender_position, position_t destination, Defender defender_data) {
-  position_t current_position;
+  // position_t current_position;
   position_t *path = get_defender_shortest_path(defender_position, destination, defender_data);
 
-  current_position = path[0];
-  UNUSED(current_position);
-
+  // current_position = path[0];
 
   for (size_t i = 1; !equal_positions(path[i-1], defender_position); i++) {
+    printf("(%ld, %ld) ", path[i].i, path[i].j);
+    fflush(stdout);
   }
 
   free(path);
