@@ -50,10 +50,10 @@ position_t get_defender_destination(position_t attacker_position, Defender defen
 
 
 position_t ** new_position_matrix(size_t height, size_t width, position_t position) {
-  position_t **matrix = malloc(height * sizeof(char*));
+  position_t **matrix = malloc(height * sizeof(position_t*));
 
   for (size_t i = 0; i < height; i++) {
-    matrix[i] = malloc(width * sizeof(char));
+    matrix[i] = malloc(width * sizeof(position_t));
 
     for (size_t j = 0; j < width; j++) {
       matrix[i][j] = position;
@@ -64,10 +64,10 @@ position_t ** new_position_matrix(size_t height, size_t width, position_t positi
 }
 
 int ** new_int_matrix(size_t height, size_t width, int initial_value) {
-  int **matrix = malloc(height * sizeof(char*));
+  int **matrix = malloc(height * sizeof(int*));
 
   for (size_t i = 0; i < height; i++) {
-    matrix[i] = malloc(width * sizeof(char));
+    matrix[i] = malloc(width * sizeof(int));
 
     for (size_t j = 0; j < width; j++) {
       matrix[i][j] = initial_value;
