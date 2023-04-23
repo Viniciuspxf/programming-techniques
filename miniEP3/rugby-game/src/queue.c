@@ -30,6 +30,8 @@ void print(queue_t queue) {
         Node * current_node = queue->head_node;
         Node * next_node;
 
+        printf("size: %ld ", queue->size);
+
         while (current_node) {
             printf("(%ld,%ld) ", current_node->value.i, current_node->value.j);
 
