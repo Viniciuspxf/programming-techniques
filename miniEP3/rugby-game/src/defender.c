@@ -16,6 +16,9 @@
 //matrix
 #include "matrix.h"
 
+//queue
+#include "queue.h"
+
 // Macros
 #define UNUSED(x) (void)(x) // Auxiliary to avoid error of unused parameter
 
@@ -61,12 +64,12 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
   position_t **previous = new_position_matrix(defender_data->map_height, defender_data->map_width, position);
   int **visited = new_int_matrix(defender_data->map_height, defender_data->map_width, 0);
 
-  // queue_t queue = new_queue();
-  // add_element(queue, defender_position);
+  queue_t queue = new_queue();
+  add_element(queue, defender_position);
   previous[defender_position.i][defender_position.j] = defender_position;
 
-  while (/*!is_empty(queue)*/1) {
-    // current_position = remove(queue);
+  while (!is_empty(queue)) {
+    current_position = get_first_element(queue);
 
     if (equal_positions(defender_position, destination)) break;
     
@@ -75,7 +78,7 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
       next_position.j = current_position.j + directions[i][1];
 
       if (!visited[next_position.i][next_position.j]) {
-        // add_element(queue, next_position);
+        add_element(queue, next_position);
         previous[next_position.i][next_position.j] = current_position;
         visited[next_position.i][next_position.j] = 1;
       }
@@ -84,7 +87,7 @@ void get_defender_shortest_path(position_t defender_position, position_t destina
 
   free_matrix(defender_data->map_height, (void **) previous);
   free_matrix(defender_data->map_height, (void **) visited);
-  // free_queue(queue);
+  free_queue(queue);
 }
 
 /*----------------------------------------------------------------------------*/
