@@ -48,6 +48,66 @@ position_t get_defender_destination(position_t attacker_position, Defender defen
   return destination;
 }
 
+
+position_t ** new_position_matrix(size_t height, size_t width, position_t position) {
+  position_t **matrix = malloc(height * sizeof(char*));
+
+  for (size_t i = 0; i < height; i++) {
+    matrix[i] = malloc(width * sizeof(char));
+
+    for (size_t j = 0; j < width; j++) {
+      matrix[i][j] = position;
+    }
+  }
+
+  return matrix;
+}
+
+int ** new_int_matrix(size_t height, size_t width, int initial_value) {
+  int **matrix = malloc(height * sizeof(char*));
+
+  for (size_t i = 0; i < height; i++) {
+    matrix[i] = malloc(width * sizeof(char));
+
+    for (size_t j = 0; j < width; j++) {
+      matrix[i][j] = initial_value;
+    }
+  }
+
+  return matrix;
+}
+
+
+
+void get_defender_shortest_path(position_t defender_position, position_t destination, Defender defender_data) {
+  position_t position;
+  position_t current_position;
+  position_t next_position;
+  int directions[8][2] = {DIR_UP, DIR_UP_RIGHT, DIR_RIGHT, DIR_DOWN_RIGHT, DIR_DOWN, DIR_DOWN_LEFT, DIR_LEFT, DIR_UP_LEFT};
+
+  position_t **previous = new_position_matrix(defender_data->map_height, defender_data->map_width, position);
+  int **visited = new_int_matrix(defender_data->map_height, defender_data->map_width, 0);
+
+  // queue_t queue = new_queue();
+  // add_element(queue, defender_position);
+  previous[defender_position.i][defender_position.j] = defender_position;
+
+  while (/*!is__empty(queue)*/1) {
+    // current_position = remove(queue);
+
+    if (equal_positions(defender_position, destination)) break;
+    
+    for (int i = 0; i < 8; i++) {
+      next_position.i = current_position.i + directions[i][0];
+      next_position.j = current_position.j + directions[i][1];
+
+      // add_element(queue, next_position);
+      previous[next_position.i][next_position.j] = current_position;
+      visited[next_position.i][next_position.j] = 1;
+    }
+  }
+}
+
 /*----------------------------------------------------------------------------*/
 /*                              PUBLIC FUNCTIONS                              */
 /*----------------------------------------------------------------------------*/
@@ -59,9 +119,7 @@ direction_t execute_defender_strategy(
   position_t attacker_position = get_spy_position(attacker_spy);
   position_t destination = get_defender_destination(attacker_position, defender_data);
   
-
-  UNUSED(defender_position);
-  UNUSED(destination);
+  get_defender_shortest_path(defender_position, destination, defender_data);
 
   return (direction_t) DIR_LEFT;
 }
@@ -69,21 +127,22 @@ direction_t execute_defender_strategy(
 /*----------------------------------------------------------------------------*/
 
 Defender new_defender(dimension_t dimension, char* map_data) {
-  Defender def = malloc(sizeof(struct defender));
 
-  def->map_height = dimension.height;
-  def->map_width = dimension.width;
-  def->map = malloc(def->map_height * sizeof(char*));
+  Defender defender = malloc(sizeof(struct defender));
+
+  defender->map_height = dimension.height;
+  defender->map_width = dimension.width;
+  defender->map = malloc(defender->map_height * sizeof(char*));
 
   for (size_t i = 0; i < dimension.height; i++) {
-    def->map[i] = malloc(def->map_width * sizeof(char));
+    defender->map[i] = malloc(defender->map_width * sizeof(char));
 
     for (size_t j = 0; j < dimension.width; j++) {
-      def->map[i][j] = map_data[i*dimension.height + j];
+      defender->map[i][j] = map_data[i*dimension.height + j];
     }
   }
 
-  return def;
+  return defender;
 }
 
 /*----------------------------------------------------------------------------*/
