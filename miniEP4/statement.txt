@@ -1,0 +1,13 @@
+Nessa aula com o Renato Cordeiro vimos que pensar de forma modular, orientada a objetos, independe da linguagem.
+
+Houve um grande exemplo em C, com herança e polimorfismo e depois exemplos em outras linguagens.
+
+Os códigos estão disponíveis em: https://github.com/renatocf/oop-examples/
+
+
+Com base nos códigos do Renato você deve criar uma nova figura geométrica, o triângulo (com base e altura).
+
+Isso deve ser feito em C e em outra linguagem a sua escolha.
+
+Mande apenas os artigos com os códigos fonte.
+
