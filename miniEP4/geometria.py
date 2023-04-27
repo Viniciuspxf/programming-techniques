@@ -41,7 +41,15 @@ class Circulo(FormaGeometrica):
 
     def calculaArea(self):
         return math.pi * self.raio * self.raio
+    
+class Triangulo(FormaGeometrica):
+    def __init__(self, base: float, altura: float):
+        super().__init__('t')
+        self.base = base
+        self.altura = altura
 
+    def calculaArea(self):
+        return self.base * self.altura / 2
 
 if __name__ == "__main__":
     q = Quadrado(5.0)
@@ -53,3 +61,6 @@ if __name__ == "__main__":
 
     c = Circulo(1.0)
     c.imprime()
+
+    t = Triangulo(3.0, 4.0)
+    t.imprime()
