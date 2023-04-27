@@ -49,8 +49,6 @@ void inicializaFormaGeometrica(
   novaFormaGeometrica->simbolo = simbolo;
   novaFormaGeometrica->calculaArea = calculaArea;
   novaFormaGeometrica->imprime = imprimeAreaFormaGeometrica;
-
-  return novaFormaGeometrica;
 }
 
 // Destrutor
@@ -68,6 +66,52 @@ void imprimeAreaFormaGeometrica(FormaGeometrica fg) {
       fg->simbolo, fg->calculaArea(fg->child));
 }
 
+/*====================================================================*/
+float calculaAreaTriangulo(void* this);
+
+struct triangulo {
+    FormaGeometrica super;
+    float base;
+    float altura;
+};
+
+typedef struct triangulo* Triangulo;
+
+Triangulo alocaTriangulo() {
+    Triangulo novoTriangulo = malloc(sizeof(*novoTriangulo));
+    novoTriangulo->super = alocaFormaGeometrica();
+    return novoTriangulo;
+}
+
+void inicializaTriangulo(Triangulo novoTriangulo, float base, float altura) {
+    inicializaFormaGeometrica(
+        novoTriangulo->super,
+        novoTriangulo,
+        't',
+        calculaAreaTriangulo
+    );
+    novoTriangulo->base = base;
+    novoTriangulo->altura = altura;
+}
+
+Triangulo novoTriangulo(float base, float altura) {
+    Triangulo novoTriangulo = alocaTriangulo();
+    inicializaTriangulo(novoTriangulo, base, altura);
+    return novoTriangulo;
+}
+
+void removeTriangulo(Triangulo triangulo) {
+    removeFormaGeometrica(triangulo->super);
+    triangulo->super = NULL;
+    triangulo->base = 0.0;
+    triangulo->altura = 0.0;
+    free(triangulo);
+}
+
+float calculaAreaTriangulo(void* this) {
+  Triangulo triangulo = (Triangulo) this;
+  return triangulo->base * triangulo->altura/2;
+}
 /*====================================================================*/
 
 float calculaAreaQuadrado(void* this);
@@ -263,6 +307,11 @@ int main(int /* argc */, char** /* argv */) {
   /* printf("Area circulo %f\n", c->super->calculaArea(c)); */
   c->super->imprime(c->super);
   removeCirculo(c);
+
+  Triangulo t = novoTriangulo(3.0, 4.0);
+  printf("Endereço triangulo %p\n", t);
+  t->super->imprime(t->super);
+  removeTriangulo(t);
 
   return 0;
 }
