@@ -1,0 +1,3 @@
+[submodule "EP1/galaxy-raiders-api"]
+	path = EP1/galaxy-raiders-api
+	url = git@github.com:Viniciuspxf/galaxy-raiders-api.git
