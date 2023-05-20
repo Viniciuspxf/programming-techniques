@@ -1,0 +1,2 @@
+url: https://github.com/Viniciuspxf/galaxy-raiders-api
+Dupla: Daniel Angelo Esteves Lawand
