@@ -1,0 +1,23 @@
+#Primeiro exercício:
+docker image build . -t custom-caddy:2.5.0-alpine
+
+docker container run \
+--name mycaddy \
+-p 8000:80 \
+-d custom-caddy:2.5.0-alpine
+
+
+#Segundo exercício:
+
+#Interrompendo a execução por conta do exercício anterior
+sudo docker container stop mycaddy
+sudo docker container rm mycaddy
+
+#iniciando um novo container usando volumes
+docker container run \
+--name mycaddy \
+-p 8000:80 \
+-v ${PWD}/index.html:/usr/src/pages/index.html \
+-d custom-caddy:2.5.0-alpine
+
+
