@@ -4,3 +4,6 @@
 [submodule "miniEP6"]
 	path = miniEP6
 	url = git@github.com:Viniciuspxf/miniEP6.git
+[submodule "EP1/galaxy-raiders-web"]
+	path = EP1/galaxy-raiders-web
+	url = git@github.com:galaxy-raiders/galaxy-raiders-web.git
