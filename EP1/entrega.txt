@@ -1,2 +1,9 @@
-url: https://github.com/Viniciuspxf/galaxy-raiders-api
+url backend: https://github.com/Viniciuspxf/galaxy-raiders-api
+url frontend: https://github.com/Viniciuspxf/galaxy-raiders-web
 Dupla: Daniel Angelo Esteves Lawand
+
+Observação:
+
+Criei a branch p3 no backend. O front funciona perfeitamente com o backend na branch p3.
+
+Para acessar o menu enquanto joga, basta apertar o botão de pause (esc).
